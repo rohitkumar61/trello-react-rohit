@@ -1,6 +1,7 @@
 import React from "react";
 import { Navbar, Container, Nav } from "react-bootstrap";
 import {Link} from 'react-router-dom';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
 function Header() {
   return (
@@ -19,8 +20,12 @@ function Header() {
           <Navbar bg="primary" variant="dark">
             <Container>
               <Nav className="me-auto">
+                <Link to = "/">
                 <Nav.Link href="#home">Home</Nav.Link>
+                </Link>
+                {/* <Link to ="/:id">
                 <Nav.Link href="#Boards">Boards</Nav.Link>
+                </Link> */}
               </Nav>
             </Container>
           </Navbar>
