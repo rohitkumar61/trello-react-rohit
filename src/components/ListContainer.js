@@ -57,13 +57,37 @@ class ListContainer extends React.Component {
     console.log(newList);
   };
 
+
+//for deleting data
+
+
+
+handleDeleteList = async (listId)=>{
+  console.log(listId)
+  let url =`https://api.trello.com/1/lists/${listId}/closed?key=${API_KEY}&token=${API_TOKEN}&value=true`
+  const deletedList = await fetch(url,{ method: 'PUT'})
+  const archieveList =await deletedList.json()
+ 
+  console.log(archieveList)
+  if(archieveList.closed){
+  this.setState({
+    listData: this.state.listData.filter((list)=> list.id !== listId),
+  })
+}else{
+  console.log("Problem during making PUT request")
+}
+}
+
+
+
+
   render() {
     const { id } = this.state.listData;
 
     return (
       <div className="d-flex m-2" style={{ overflowX: "auto", flex: "1" }}>
         {this.state.listData.map((list) => (
-          <List list={list} key={list.id} />
+          <List list={list} key={list.id} onDelete ={()=>this.handleDeleteList(list.id)} />
         ))}
 
         <div>
