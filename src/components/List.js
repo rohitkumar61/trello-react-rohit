@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { API_TOKEN, API_KEY } from "../services/projectServices";
+import { DropdownButton, Dropdown, InputGroup, FormControl } from "react-bootstrap";
 
 import ListCards from "./ListCards";
 import CreateCards from "./CreateCards";
@@ -33,7 +34,7 @@ class List extends React.Component {
   };
   handleSubmit = (event) => {
     event.preventDefault();
-   
+
     console.log(this.state.name);
 
     this.props.onCreate(this.state.name);
@@ -58,17 +59,53 @@ class List extends React.Component {
     console.log(newCard);
   };
 
+  handleDeleteCard = async (cardId)=>{
+const url = `https://api.trello.com/1/cards/${cardId}?key=${API_KEY}&token=${API_TOKEN}`
+
+    const deletedCard = await fetch(url,{  method: 'DELETE'})
+    const deletedCardResponse = await deletedCard.json()
+
+    console.log(deletedCardResponse)
+
+this.setState({
+    cardData: this.state.cardData.filter((card)=> card.id !== cardId),
+  })
+
+ 
+  }
+  
+
+
   render() {
     return (
       <div>
         <div
           className="card text-dark bg-light mb-3 m-4"
-          style={{ minWidth: "18rem", maxWidth: "18rem" }}
+          style={{ minWidth: "18rem", maxWidth: "18rem", display: "flex"}}
         >
-          <div className="card-header">{this.props.list.name}</div>
+          <div className="card-header">
+            {this.props.list.name}
+
+              <DropdownButton
+                variant="outline-secondary"
+                title=""
+                id="input-group-dropdown-2"
+                align="end"
+                style ={{marginLeft:"220px",marginTop:"-30px",textDecorationStyle:"none"}}
+              >
+                <Dropdown.Item
+
+                onClick = {this.props.onDelete}
+                 href="#">Archieve list</Dropdown.Item>
+                <Dropdown.Item href="#">Another action</Dropdown.Item>
+                <Dropdown.Item href="#">Something else here</Dropdown.Item>
+              </DropdownButton>
+          
+          </div>
+
           <div className="card-body">
             {this.state.cardData.map((card) => {
-              return <ListCards key={card.id} card={card} />;
+              return <ListCards key={card.id} card={card} onDelete = {()=>this.handleDeleteCard(card.id)}/>;
             })}
             <CreateCards
               key={this.state.cardData.id}
