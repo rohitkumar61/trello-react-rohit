@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { API_KEY, API_TOKEN } from "../services/projectServices";
-
+import CreateCheckList from "./CreateCheckList";
+import CheckList from "./CheckList";
 
 
 class CheckListModalContainer extends React.Component {
@@ -12,6 +13,24 @@ class CheckListModalContainer extends React.Component {
       show: false,
     };
   }
+
+  handleCreateCheckList = async(checkListName) => {
+    
+	let url =  `https://api.trello.com/1/checklists?name=${checkListName}&idCard=${this.props.cardData.id}&key=${API_KEY}&token=${API_TOKEN}`
+    let response = await fetch(url,{
+        method: "POST",
+      }
+    )
+	let newCheckList  = await response.json()
+	this.setState({
+		checkLists: [...this.state.checkLists, newCheckList],
+	  });
+	  console.log("checklist", this.state.checkLists)
+
+  };
+
+
+
 
   componentDidMount() {
     //   console.log(this.props.cardData.id)
@@ -41,42 +60,29 @@ class CheckListModalContainer extends React.Component {
           onHide={this.handleShow}
           aria-labelledby="example-modal-sizes-title-lg"
         >
-          {/* {this.state.checkLists.map((checklist) => { */}
-          {/* return( 	//   checklist={checklist}
-			//   key={checklist.id} */}
-
           <Modal.Title id="example-modal-sizes-title-lg">
             {this.props.cardData.name}
           </Modal.Title>
-        
-         
-		  <Modal.Header closeButton>
-            <Modal.Title>
-              <form onSubmit={this.handleSubmit}>
-                <div className="mb-3">
-                  <label htmlFor="card-name" className="form-label">
-                    {/* create new board */}
-                  </label>
-                  <input
-                    value={this.state.name}
-                    type="text"
-                    className="form-control"
-                    id="card-name"
-                    aria-describedby="cardName"
-                    onChange={this.handleChange}
-                    placeholder="Create New Check List"
-                  />
-                </div>
 
-                <button type="submit" className="btn btn-primary">
-                  Add CheckList
-                </button>
-              </form>
-            </Modal.Title>
+          <Modal.Header closeButton>
+			 
+            <CreateCheckList  onCreate={this.handleCreateCheckList}/>
+			
           </Modal.Header>
-		 
-
-          <Modal.Body></Modal.Body>
+         
+           <Modal.Body>
+		  {this.state.checkLists.map((checkList) => (
+            <CheckList
+              key={checkList.id}
+              checkListDetails={checkList}
+              onCreate={this.handleCreateCheckList}
+              cardId={checkList.id}
+            /> 
+			
+		   
+           ))} 
+ 
+		  </Modal.Body>
         </Modal>
       </>
     );
