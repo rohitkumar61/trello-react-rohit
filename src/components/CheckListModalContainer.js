@@ -4,7 +4,6 @@ import { API_KEY, API_TOKEN } from "../services/projectServices";
 import CreateCheckList from "./CreateCheckList";
 import CheckList from "./CheckList";
 
-
 class CheckListModalContainer extends React.Component {
   constructor(props) {
     super(props);
@@ -13,24 +12,37 @@ class CheckListModalContainer extends React.Component {
       show: false,
     };
   }
-
-  handleCreateCheckList = async(checkListName) => {
-    
-	let url =  `https://api.trello.com/1/checklists?name=${checkListName}&idCard=${this.props.cardData.id}&key=${API_KEY}&token=${API_TOKEN}`
-    let response = await fetch(url,{
-        method: "POST",
+  handleDeleteCheckList = async(checkListId) => {
+   
+	let url =  `https://api.trello.com/1/checklists/${checkListId}?key=${API_KEY}&token=${API_TOKEN}`
+   const response =await fetch(url
+     ,
+      {
+        method: "DELETE",
       }
     )
-	let newCheckList  = await response.json()
+	const deletedCheckList =await response.json()
 	this.setState({
-		checkLists: [...this.state.checkLists, newCheckList],
-	  });
-	  console.log("checklist", this.state.checkLists)
-
+		checkLists: this.state.checkLists.filter((list)=> list.id !== checkListId),
+	  })
   };
 
 
+ 
 
+
+
+  handleCreateCheckList = async (checkListName) => {
+    let url = `https://api.trello.com/1/checklists?name=${checkListName}&idCard=${this.props.cardData.id}&key=${API_KEY}&token=${API_TOKEN}`;
+    let response = await fetch(url, {
+      method: "POST",
+    });
+    let newCheckList = await response.json();
+    this.setState({
+      checkLists: [...this.state.checkLists, newCheckList],
+    });
+    console.log("checklist", this.state.checkLists);
+  };
 
   componentDidMount() {
     //   console.log(this.props.cardData.id)
@@ -65,24 +77,20 @@ class CheckListModalContainer extends React.Component {
           </Modal.Title>
 
           <Modal.Header closeButton>
-			 
-            <CreateCheckList  onCreate={this.handleCreateCheckList}/>
-			
+            <CreateCheckList onCreate={this.handleCreateCheckList} />
           </Modal.Header>
-         
-           <Modal.Body>
-		  {this.state.checkLists.map((checkList) => (
-            <CheckList
-              key={checkList.id}
-              checkListDetails={checkList}
-              onCreate={this.handleCreateCheckList}
-              cardId={checkList.id}
-            /> 
-			
-		   
-           ))} 
- 
-		  </Modal.Body>
+
+          <Modal.Body>
+            {this.state.checkLists.map((checkList) => (
+              <CheckList
+                key={checkList.id}
+                checkListDetails={checkList}
+                onCreate={this.handleCreateCheckList}
+				onDelete = {()=>this.handleDeleteCheckList(checkList.id)}
+                cardId={checkList.id}
+              />
+            ))}
+          </Modal.Body>
         </Modal>
       </>
     );
