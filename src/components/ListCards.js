@@ -5,6 +5,7 @@ import {
   DropdownButton,
   Dropdown,
 } from "react-bootstrap";
+import CheckListModalContainer from "./CheckListModalContainer";
 
 class ListCards extends React.Component {
   render() {
@@ -22,7 +23,7 @@ class ListCards extends React.Component {
             title=""
             id="input-group-dropdown-2"
             align="end"
-            // ms-auto
+       
             style={{
               right: "0px",
               top: "0px",
@@ -38,9 +39,12 @@ class ListCards extends React.Component {
             <Dropdown.Item href="#">Another action</Dropdown.Item>
             <Dropdown.Item href="#">Something else here</Dropdown.Item>
           </DropdownButton>
-        </ListGroup.Item>
+
+          <CheckListModalContainer cardData = {this.props.card} />
+
+        </ListGroup.Item> 
       </div>
-    );
+    )
   }
 }
 
