@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { API_TOKEN, API_KEY } from "../services/projectServices";
-import { DropdownButton, Dropdown, InputGroup, FormControl } from "react-bootstrap";
+import { DropdownButton, Dropdown} from "react-bootstrap";
 
 import ListCards from "./ListCards";
 import CreateCards from "./CreateCards";
@@ -36,13 +36,6 @@ class List extends React.Component {
   };
   handleSubmit = (event) => {
     event.preventDefault();
-
-    console.log(this.state.name);
-
-    this.props.onCreate(this.state.name);
-    this.setState({
-      name: "",
-    });
   };
 
   handleCreateCard = async (name) => {
@@ -77,8 +70,6 @@ this.setState({
  
   }
   
-
-
   render() {
     return (
       <div>
