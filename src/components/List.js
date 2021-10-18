@@ -18,7 +18,9 @@ class List extends React.Component {
     const url = `https://api.trello.com/1/lists/${this.props.list.id}/cards?key=${API_KEY}&token=${API_TOKEN}`;
 
     fetch(url, { method: "GET" })
-      .then((res) => res.json())
+      .then((res) =>
+  
+       res.json())
 
       .then((json) => {
         this.setState({ cardData: json });
@@ -60,6 +62,7 @@ class List extends React.Component {
   };
 
   handleDeleteCard = async (cardId)=>{
+    console.log(cardId)
 const url = `https://api.trello.com/1/cards/${cardId}?key=${API_KEY}&token=${API_TOKEN}`
 
     const deletedCard = await fetch(url,{  method: 'DELETE'})

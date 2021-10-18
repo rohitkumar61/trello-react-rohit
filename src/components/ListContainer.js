@@ -79,8 +79,6 @@ handleDeleteList = async (listId)=>{
 }
 
 
-
-
   render() {
     const { id } = this.state.listData;
 

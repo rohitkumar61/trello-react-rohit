@@ -24,7 +24,7 @@ class ListCards extends React.Component {
             title=""
             id="input-group-dropdown-2"
             align="end"
-            ms-auto
+            // ms-auto
             style={{
               right: "0px",
               top: "0px",
