@@ -31,8 +31,8 @@ class List extends React.Component {
   //for posting card data and creating card
 
   handleChange = (event) => {
-    console.log(event.target.value);
-    this.setState({ name: event.target.value });
+    // console.log(event.target.value);
+    // this.setState({ name: event.target.value });
   };
   handleSubmit = (event) => {
     event.preventDefault();

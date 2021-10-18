@@ -1,16 +1,14 @@
 import React, { Component } from "react";
 import { ListGroup } from "react-bootstrap";
-import { Button } from "react-bootstrap";
+
 import {
   DropdownButton,
   Dropdown,
-  InputGroup,
-  FormControl,
 } from "react-bootstrap";
 
 class ListCards extends React.Component {
   render() {
-    let { id } = this.props;
+   
     return (
       <div style={{ position: "relative" }}>
         <ListGroup.Item className="m-2">
