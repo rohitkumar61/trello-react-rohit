@@ -20,7 +20,7 @@ function Header() {
           <Navbar bg="primary" variant="dark">
             <Container>
               <Nav className="me-auto">
-                <Link to = "/">
+                <Link to = "/boards">
                 {/* <Nav.Link>Home</Nav.Link> */}
                 <div style={{color:"white"}}>Home</div>
                 </Link>
