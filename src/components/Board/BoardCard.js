@@ -7,7 +7,6 @@ class BoardCard extends React.Component {
     const { id, name, prefs } = this.props.board;
 
     return (
-      // <Link to={`/${id}`}>
         <Link to={`/boards/${id}`}> 
         <div>
           <Card
