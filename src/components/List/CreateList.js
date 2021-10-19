@@ -37,7 +37,7 @@ class CreateList extends Component {
               onChange={this.handleChange}
             />
           </div>
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="btn btn-outline-primary" style={{border:0}}>
             Add List
           </button>
         </form>
