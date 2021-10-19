@@ -15,7 +15,8 @@ function App() {
         <Header />
         <Switch>
           <Route path="/" exact component={BoardsContainer} />
-          <Route path="/:id" component={ListContainer} />{" "}
+          <Route path="/boards:id" component={ListContainer} />{" "}
+          {/* <Route path="/:id" component={ListContainer} />{" "} */}
           <Route path="/boards" component={ListContainer} />
         </Switch>
       </div>{" "}
