@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 
-import { API_KEY, API_TOKEN } from "../../services/projectServices";
 import List from "./List";
 import CreateList from "./CreateList";
 import * as TrelloApi from "./../../services/api.js";
+
 class ListContainer extends React.Component {
   constructor(props) {
     super(props);
@@ -22,45 +22,21 @@ class ListContainer extends React.Component {
     this.fetchLists();
   }
 
-  //for posting data and creating list
-
-  // handleChange = (event) => {
-  //   console.log(event.target.value);
-  //   this.setState({ name: event.target.value });
-  // };
-  // handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   console.log("submit working");
-  //   console.log(this.state.name);
-
-  //   this.props.onCreate(this.state.name);
-  //   this.setState({
-  //     name: "",
-  //   });
-  // };
+  //creating list
 
   handleCreateList = async (name) => {
-    let url = `https://api.trello.com/1/lists/?name=${name}&idBoard=${this.props.match.params.id}&key=${API_KEY}&token=${API_TOKEN}`;
+    let newList = await TrelloApi.addList(this.props.match.params.id, name);
 
-    const response = await fetch(url, { method: "POST" });
-
-    const newList = await response.json();
     this.setState({
       listData: [...this.state.listData, newList],
     });
-    console.log(newList);
   };
 
   //for deleting data
 
   handleDeleteList = async (listId) => {
-    console.log(listId);
-    let url = `https://api.trello.com/1/lists/${listId}/closed?key=${API_KEY}&token=${API_TOKEN}&value=true`;
-    const deletedList = await fetch(url, { method: "PUT" });
-    const archieveList = await deletedList.json();
-
-    console.log(archieveList);
-    if (archieveList.closed) {
+    let archivedList = await TrelloApi.archiveList(listId);
+    if (archivedList.closed) {
       this.setState({
         listData: this.state.listData.filter((list) => list.id !== listId),
       });
@@ -70,8 +46,6 @@ class ListContainer extends React.Component {
   };
 
   render() {
-    const { id } = this.state.listData;
-
     return (
       <div className="d-flex m-2" style={{ overflowX: "auto", flex: "1" }}>
         {this.state.listData.map((list) => (
