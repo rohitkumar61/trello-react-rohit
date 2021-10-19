@@ -1,11 +1,9 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
 
-
 import * as TrelloApi from "./../../services/api.js";
 import CreateCheckList from "./CreateCheckList";
 import CheckList from "./CheckList";
-
 
 class CheckListModalContainer extends React.Component {
   constructor(props) {
@@ -52,8 +50,13 @@ class CheckListModalContainer extends React.Component {
   render() {
     return (
       <>
-        <Button onClick={this.handleShow}>CheckList</Button>
-
+        <Button
+          variant="outline-secondary"
+          style={{ border:0}}
+          onClick={this.handleShow}
+        >
+          CheckList
+        </Button>{" "}
         <Modal
           size="lg"
           show={this.state.show}
@@ -69,15 +72,19 @@ class CheckListModalContainer extends React.Component {
           </Modal.Header>
 
           <Modal.Body>
-            {this.state.checkLists.map((checkList) => (
-              <CheckList
-                key={checkList.id}
-                checkListDetails={checkList}
-                onCreate={this.handleCreateCheckList}
-                onDelete={() => this.handleDeleteCheckList(checkList.id)}
-                cardId={checkList.id}
-              />
-            ))}
+            {this.state.checkLists.map((checkList) => {
+              return (
+                <CheckList
+                  key={checkList.id}
+                  name={checkList.name}
+                  checkListItems={checkList.checkItems}
+                  onCreate={this.handleCreateCheckList}
+                  onDelete={() => this.handleDeleteCheckList(checkList.id)}
+                  cardId={this.props.cardData}
+                  id={checkList.id}
+                />
+              );
+            })}
           </Modal.Body>
         </Modal>
       </>
