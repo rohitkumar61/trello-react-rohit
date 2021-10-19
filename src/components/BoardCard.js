@@ -8,7 +8,7 @@ class BoardCard extends React.Component {
 
     return (
       // <Link to={`/${id}`}>
-        <Link to={`/boards${id}`}> 
+        <Link to={`/boards/${id}`}> 
         <div>
           <Card
             style={{
