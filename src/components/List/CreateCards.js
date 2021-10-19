@@ -37,7 +37,7 @@ class CreateCards extends React.Component {
               />
             </div>
 
-            <button type="submit" className="btn btn-primary">
+			<button type="submit" className="btn btn-outline-primary" style={{border:0}}>
               Add Cards
             </button>
           </form>
