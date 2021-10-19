@@ -14,10 +14,10 @@ function App() {
       <div className="App">
         <Header />
         <Switch>
-          <Route path="/boards" exact component={BoardsContainer} />
+          <Route path="/" exact component={BoardsContainer} />
           <Route path="/boards/:id" component={ListContainer} />{" "}
           {/* <Route path="/:id" component={ListContainer} />{" "} */}
-          <Route path="/boards" component={ListContainer} />
+          <Route path="/board" component={ListContainer} />
         </Switch>
       </div>{" "}
     </Router>
