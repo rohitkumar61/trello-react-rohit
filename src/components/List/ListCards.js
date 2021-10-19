@@ -23,7 +23,6 @@ class ListCards extends React.Component {
               textDecorationStyle: "none",
               position: "absolute",
               border: "none",
-             
             }}
           >
             <Dropdown.Item onClick={this.props.onDelete} href="#">
