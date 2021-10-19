@@ -21,12 +21,10 @@ function Header() {
             <Container>
               <Nav className="me-auto">
                 <Link to = "/">
-                {/* <Nav.Link>Home</Nav.Link> */}
+              
                 <div style={{color:"white"}}>Home</div>
                 </Link>
-                {/* <Link to ="/:id">
-                <Nav.Link href="#Boards">Boards</Nav.Link>
-                </Link> */}
+               
               </Nav>
             </Container>
           </Navbar>
