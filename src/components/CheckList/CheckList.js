@@ -13,20 +13,10 @@ class CheckList extends React.Component {
     };
   }
 
-  // updateProgressBar = () => {
-  //   let checkItems = this.state.checkItems;
-  //   let completed = checkItems.reduce((acc, cur) => {
-  //     if (acc.state === "complete") {
-  //       return acc + 1;
-  //     }
-  //     return acc;
-  //   }, 0);
-
-  //   return (completed / checkItems.length) * 100;
-  // };
-
   handleCheckItem = async (name) => {
     let newCheckedItem = await TrelloApi.addCheckItem(this.props.id, name);
+    console.log( "add item", newCheckedItem);
+
 
     this.setState({
       checkItems: [...this.state.checkItems, newCheckedItem],
@@ -44,6 +34,22 @@ class CheckList extends React.Component {
     });
   };
 
+  handleCheckItemChange = async (id, state) => {
+    // console.log("check list data  ",this.props.cardId.id,id,state)
+    let response = await TrelloApi.updateCheckItem(this.props.cardId.id,id, state);
+      let newCheckItems = this.state.checkItems.map((checkItem) => {
+        if (checkItem.id === id) {
+          if (checkItem.state === "complete") {
+            checkItem.state = "incomplete";
+          } else {
+            checkItem.state = "complete";
+          }
+        }
+        return checkItem;
+      });
+      this.setState({ checkItems: newCheckItems });
+ 
+  };
 
   render() {
     return (
@@ -67,14 +73,15 @@ class CheckList extends React.Component {
           <Card.Body>
             <div>
               {this.state.checkItems.map((item) => {
-                console.log(item);
+                // console.log(item);
                 return (
                   <AddCheckList
                     item={item}
                     key={item.id}
                     id={item.id}
+                    item = {item}
                     checked={item.state === "complete" ? true : false}
-                    // onCheck={this.handleCheckItemChange}
+                    onCheckList={this.handleCheckItemChange}
                     onDelete={this.handleDeleteCheckListItem}
                   />
                 );
