@@ -13,9 +13,10 @@ class AddCheckList extends Component {
               value=""
               aria-label="..."
               id={this.props.id}
-              // onChange={() =>
-              //   this.props.onCheck(this.props.id, !this.props.checked)
-              // }
+              onChange={() =>{
+                this.props.onCheckList(this.props.id, !this.props.checked)
+              }}
+            
               checked={this.props.checkedItem}
               onClick={this.props.onCheck}
             />
