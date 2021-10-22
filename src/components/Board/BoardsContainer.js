@@ -1,30 +1,21 @@
-import React, { Component } from "react";
+import React from "react";
 import { Card } from "react-bootstrap";
+import {connect} from "react-redux"
 
 
 import * as TrelloApi from "./../../services/api.js";
 import BoardCard from "./BoardCard";
 import ModalBoard from "./ModalBoard";
 
+import fetchBoardsAction from "../../actions/boardActions"
+
 
 class BoardsContainer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      boardData: [],
-    };
-  }
-
-
-  fetchBoards = async()=> {
-    let boards = await TrelloApi.getBoards();
-    this.setState({ boardData: boards });
-  }
-
- 
 
   componentDidMount() {
-        this.fetchBoards()
+    console.log( "board state   " + " " )
+    console.log(this.props.boards)
+    this.props.fetchBoardsAction()
   }
 
   handleCreateBoard = async (newBoardName) => {
@@ -36,10 +27,11 @@ class BoardsContainer extends React.Component {
   };
 
   render() {
-    let { id } = this.state.boardData;
+    
+  console.log(this.props)
     return (
       <div className="d-flex flex-wrap justify-content-center">
-        {this.state.boardData.map((board) => (
+        {this.props.boards.map((board) => (
           <BoardCard
             board={board}
             key={board.id}
@@ -55,7 +47,7 @@ class BoardsContainer extends React.Component {
           }}
         >
           <ModalBoard
-            key={this.state.boardData.id}
+            key={this.props.boards.id}
             onCreate={this.handleCreateBoard}
           />
         </Card>
@@ -64,4 +56,9 @@ class BoardsContainer extends React.Component {
   }
 }
 
-export default BoardsContainer;
+
+const mapStateToProps = state =>({
+  boards:state.boards.boardsCard
+})
+
+export default connect(mapStateToProps,{fetchBoardsAction})(BoardsContainer);
