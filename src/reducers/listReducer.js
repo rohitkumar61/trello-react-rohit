@@ -1,4 +1,4 @@
-import { FETCH_LISTS } from "../actions/actionsTypes";
+import { FETCH_LISTS, ADD_LISTS } from "../actions/actionsTypes";
 
 const initialState = {
   lists: [],
@@ -12,6 +12,13 @@ const listReducer = (state = initialState, action) => {
         ...state,
         lists: action.payload,
       };
+
+    case ADD_LISTS:
+      return {
+        ...state,
+        lists: [...state.lists, action.payload],
+      };
+
     default:
       return state;
   }
