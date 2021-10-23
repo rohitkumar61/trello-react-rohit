@@ -1,25 +1,16 @@
 import React, { Component } from "react";
 import { DropdownButton, Dropdown } from "react-bootstrap";
+import { connect } from "react-redux";
 
 import * as TrelloApi from "./../../services/api";
 import ListCards from "./ListCards";
 import CreateCards from "./CreateCards";
+import { fetchCardsAction } from "../../actions/cardActions";
 
 class List extends React.Component {
-  constructor(props) {
-    super(props);
-    const { id, name } = this.props;
-    this.state = {
-      cardData: [],
-    };
-  }
-
-  fetchListData = async (id) => {
-    let cards = await TrelloApi.getCards(id);
-    this.setState({ cardData: cards });
-  };
+ 
   componentDidMount() {
-    this.fetchListData(this.props.list.id);
+    this.props.fetchCardsAction(this.props.list.id);
   }
 
   //creating card
@@ -31,13 +22,13 @@ class List extends React.Component {
     });
   };
 
-  handleDeleteCard = async (cardId) => {
-    const deletedCardResponse = await TrelloApi.deleteCard(cardId);
+  // handleDeleteCard = async (cardId) => {
+  //   const deletedCardResponse = await TrelloApi.deleteCard(cardId);
 
-    this.setState({
-      cardData: this.state.cardData.filter((card) => card.id !== cardId),
-    });
-  };
+  //   this.setState({
+  //     cardData: this.state.cardData.filter((card) => card.id !== cardId),
+  //   });
+  // };
 
   render() {
     return (
@@ -67,7 +58,7 @@ class List extends React.Component {
           </div>
 
           <div className="card-body">
-            {this.state.cardData.map((card) => {
+            {this.props.cards.map((card) => {
               return (
                 <ListCards
                   key={card.id}
@@ -77,7 +68,7 @@ class List extends React.Component {
               );
             })}
             <CreateCards
-              key={this.state.cardData.id}
+              key={this.props.cards.id}
               onCreate={this.handleCreateCard}
             />
           </div>
@@ -87,4 +78,9 @@ class List extends React.Component {
   }
 }
 
-export default List;
+
+const mapStateToProps = (state) =>({
+  cards: state.cards.cards
+})
+
+export default connect(mapStateToProps,{fetchCardsAction}) (List);
