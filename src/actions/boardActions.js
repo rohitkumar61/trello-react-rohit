@@ -1,4 +1,4 @@
-import { FETCH_BOARD, ADD_BOARD } from "./actionsTypes";
+import { FETCH_BOARD, ADD_BOARD} from "./actionsTypes";
 import * as TrelloApi from "../services/api.js";
 
 export const fetchBoardsAction = () => (dispatch) => {
@@ -10,6 +10,7 @@ export const fetchBoardsAction = () => (dispatch) => {
   );
 };
 
+
 export const createBoardsAction = (newBoardName) => (dispatch) => {
   TrelloApi.addBoard(newBoardName).then((postBoard) =>
     dispatch({
@@ -18,3 +19,4 @@ export const createBoardsAction = (newBoardName) => (dispatch) => {
     })
   );
 };
+
