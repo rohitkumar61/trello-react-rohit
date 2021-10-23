@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import List from "./List";
 import CreateList from "./CreateList";
 import * as TrelloApi from "./../../services/api.js";
-import { fetchListsAction, createListsAction } from "../../actions/listActions";
+import { fetchListsAction, createListsAction,archieveListsAction } from "../../actions/listActions";
 
 class ListContainer extends React.Component {
   componentDidMount() {
@@ -20,14 +20,10 @@ class ListContainer extends React.Component {
   //for deleting data
 
   handleDeleteList = async (listId) => {
-    let archivedList = await TrelloApi.archiveList(listId);
-    if (archivedList.closed) {
-      this.setState({
-        listData: this.state.listData.filter((list) => list.id !== listId),
-      });
-    } else {
-      console.log("Problem during making PUT request");
-    }
+   
+    this.props.archieveListsAction(listId)
+   
+   
   };
 
   render() {
@@ -56,4 +52,4 @@ const mapStateToProps = (state) => ({
   lists: state.lists.lists,
 });
 
-export default connect(mapStateToProps, { fetchListsAction,createListsAction })(ListContainer);
+export default connect(mapStateToProps, { fetchListsAction,createListsAction,archieveListsAction })(ListContainer);
