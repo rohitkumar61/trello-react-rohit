@@ -1,11 +1,10 @@
-import { FETCH_BOARD, ADD_BOARD } from "../actions/actionsTypes";
+import { FETCH_BOARD, ADD_BOARD, FETCH_LISTS } from "../actions/actionsTypes";
 
 const initialState = {
   boardsCard: [],
-  newBoard: {},
 };
 
-export default function (state = initialState, action) {
+const boardReducer = (state = initialState, action) =>{
   switch (action.type) {
     case FETCH_BOARD:
       //   console.log("reducer  working on case fetch match ....");
@@ -18,10 +17,13 @@ export default function (state = initialState, action) {
       //   console.log("reducer  working on case add card ....");
       return {
         ...state,
-        newBoard: action.payload,
+        boardsCard: [...state.boardsCard, action.payload],
       };
 
     default:
       return state;
   }
 }
+
+
+export default boardReducer
