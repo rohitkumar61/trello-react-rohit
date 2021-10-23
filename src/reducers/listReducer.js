@@ -1,4 +1,4 @@
-import { FETCH_LISTS, ADD_LISTS } from "../actions/actionsTypes";
+import { FETCH_LISTS, ADD_LISTS, ARCHIEVE_LIST } from "../actions/actionsTypes";
 
 const initialState = {
   lists: [],
@@ -7,7 +7,6 @@ const initialState = {
 const listReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_LISTS:
-      //   console.log(" 2: reducer  working on fetch LISTS ....");
       return {
         ...state,
         lists: action.payload,
@@ -17,6 +16,12 @@ const listReducer = (state = initialState, action) => {
       return {
         ...state,
         lists: [...state.lists, action.payload],
+      };
+
+    case ARCHIEVE_LIST:
+      return {
+        ...state,
+        lists: state.lists.filter((list) => list.id !== action.payload),
       };
 
     default:
