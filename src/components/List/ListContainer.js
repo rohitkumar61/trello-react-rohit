@@ -1,25 +1,14 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 
 import List from "./List";
 import CreateList from "./CreateList";
 import * as TrelloApi from "./../../services/api.js";
+import { fetchListsAction } from "../../actions/listActions";
 
 class ListContainer extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      listData: [],
-    };
-  }
-
-  fetchLists = async () => {
-    let lists = await TrelloApi.getLists(this.props.match.params.id);
-    this.setState({ listData: lists });
-  };
-
   componentDidMount() {
-    this.fetchLists();
+    this.props.fetchListsAction(this.props.match.params.id);
   }
 
   //creating list
@@ -48,7 +37,7 @@ class ListContainer extends React.Component {
   render() {
     return (
       <div className="d-flex m-2" style={{ overflowX: "auto", flex: "1" }}>
-        {this.state.listData.map((list) => (
+        {this.props.lists.map((list) => (
           <List
             list={list}
             key={list.id}
@@ -58,7 +47,7 @@ class ListContainer extends React.Component {
 
         <div>
           <CreateList
-            key={this.state.listData.id}
+            key={this.props.lists.id}
             onCreate={this.handleCreateList}
           />
         </div>
@@ -67,4 +56,8 @@ class ListContainer extends React.Component {
   }
 }
 
-export default ListContainer;
+const mapStateToProps = (state) => ({
+  lists: state.lists.lists,
+});
+
+export default connect(mapStateToProps, { fetchListsAction })(ListContainer);
