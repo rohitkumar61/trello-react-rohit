@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import List from "./List";
 import CreateList from "./CreateList";
 import * as TrelloApi from "./../../services/api.js";
-import { fetchListsAction } from "../../actions/listActions";
+import { fetchListsAction, createListsAction } from "../../actions/listActions";
 
 class ListContainer extends React.Component {
   componentDidMount() {
@@ -14,11 +14,7 @@ class ListContainer extends React.Component {
   //creating list
 
   handleCreateList = async (name) => {
-    let newList = await TrelloApi.addList(this.props.match.params.id, name);
-
-    this.setState({
-      listData: [...this.state.listData, newList],
-    });
+    this.props.createListsAction(this.props.match.params.id, name)
   };
 
   //for deleting data
@@ -60,4 +56,4 @@ const mapStateToProps = (state) => ({
   lists: state.lists.lists,
 });
 
-export default connect(mapStateToProps, { fetchListsAction })(ListContainer);
+export default connect(mapStateToProps, { fetchListsAction,createListsAction })(ListContainer);
